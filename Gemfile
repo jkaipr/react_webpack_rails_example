@@ -11,6 +11,8 @@ gem 'react_webpack_rails', '~> 0.3.0'
 gem 'hamlit', '~> 2.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+# Use bcrypt for has_secure_password
+gem 'bcrypt', '~> 3.1'
 # Use Uglifier as compressor for JavaScript assets
 # gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
