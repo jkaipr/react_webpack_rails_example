@@ -7,6 +7,8 @@ gem 'rails', '4.2.6'
 gem 'sqlite3'
 # Integrate Webpack and React
 gem 'react_webpack_rails', '~> 0.3.0'
+# Use hamlit for haml templates
+gem 'hamlit', '~> 2.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
