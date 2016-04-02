@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: Fixed and released.
+  ticket_id: 3
+  user_id: 1
+
+two:
+  text: I will look into it and stop by at your office later.
+  ticket_id: 2
+  user_id: 1

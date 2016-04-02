@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 john:
+  id: 1
   firstname: John
   lastname: Doe
   email: john.doe@acme.com
@@ -8,6 +9,7 @@ john:
   password_digest: <%= BCrypt::Password.create('doe@ACME', cost: 4) %>
 
 jane:
+  id: 2
   firstname: Jane
   lastname: Doe
   email: jane.doe@acme.com

@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+new:
+  id: 1
+  subject: Missing keys
+  description: I lost my keys, has anyone seen them?
+  state: <%= Ticket::State::NEW %>
+  user_id: 1
+
+accepted:
+  id: 2
+  subject: Broken authentication
+  description: I can't login and I'm quite sure my password is ok, any help?
+  state: <%= Ticket::State::ACCEPTED %>
+  user_id: 2
+
+closed:
+  id: 3
+  subject: Alerts are not disappearing
+  description: In the past, alerts were dismissed automatically, it isn't like that anymore. Can it be fixed?
+  state: <%= Ticket::State::CLOSED %>
+  user_id: 2
