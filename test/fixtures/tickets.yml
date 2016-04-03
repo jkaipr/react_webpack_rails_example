@@ -4,19 +4,19 @@ new:
   id: 1
   subject: Missing keys
   description: I lost my keys, has anyone seen them?
-  state: <%= Ticket::State::NEW %>
+  state: <%= Ticket.states['open'] %>
   user_id: 1
 
 accepted:
   id: 2
   subject: Broken authentication
   description: I can't login and I'm quite sure my password is ok, any help?
-  state: <%= Ticket::State::ACCEPTED %>
+  state: <%= Ticket.states['accepted'] %>
   user_id: 2
 
 closed:
   id: 3
   subject: Alerts are not disappearing
   description: In the past, alerts were dismissed automatically, it isn't like that anymore. Can it be fixed?
-  state: <%= Ticket::State::CLOSED %>
+  state: <%= Ticket.states['closed'] %>
   user_id: 2

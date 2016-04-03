@@ -42,7 +42,7 @@ class TicketTest < ActiveSupport::TestCase
 
   test 'should update ticket state' do
     ticket = tickets(:new)
-    ticket.state = Ticket::State::ACCEPTED
+    ticket.state = Ticket.states['accepted']
     assert ticket.save, 'should update'
   end
 
