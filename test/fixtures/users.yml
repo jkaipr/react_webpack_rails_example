@@ -5,7 +5,7 @@ john:
   firstname: John
   lastname: Doe
   email: john.doe@acme.com
-  role: admin
+  is_admin: true
   password_digest: <%= BCrypt::Password.create('doe@ACME', cost: 4) %>
 
 jane:
@@ -13,5 +13,5 @@ jane:
   firstname: Jane
   lastname: Doe
   email: jane.doe@acme.com
-  role: user
+  is_admin: false
   password_digest: <%= BCrypt::Password.create('jane@ACME', cost: 4) %>
