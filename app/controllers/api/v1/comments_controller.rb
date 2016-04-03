@@ -1,9 +1,9 @@
 class API::V1::CommentsController < ApiController
-  before_action :find_comment, only: [:show, :update, :destroy]
+  before_action :require_user, only: :create
 
   def index
     @comments = Comment.where(ticket_id: comment_params[:ticket_id]).all
-    render json: @comments
+    render formats: :json
   end
 
   def create
@@ -17,10 +17,6 @@ class API::V1::CommentsController < ApiController
   end
 
   private
-
-  def find_comment
-    @comment = Comment.find params[:id]
-  end
 
   def comment_params
     params.permit(:text, :user_id, :ticket_id)

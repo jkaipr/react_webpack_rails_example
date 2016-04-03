@@ -12,19 +12,26 @@ describe API::V1::CommentsController do
 
   it 'should create new comment on create' do
     comment_count = new_ticket.comments.count
+    authenticate users(:jane)
     post :create, text: 'I found them.', ticket_id: new_ticket.id, user_id: user_id
-    assert_response :success
-    assert JSON.parse(response.body)['ok']
+    assert_response_ok
     assert_equal comment_count + 1, Ticket.find(new_ticket.id).comments.count
   end
 
   it 'should not create comment with empty text, ticket, user' do
+    authenticate users(:jane)
     post :create, text: '', ticket_id: new_ticket.id, user_id: user_id
-    assert_bad_request 'text'
+    assert_model_errors 'text'
     post :create, text: 'I found them.', ticket_id: '', user_id: user_id
-    assert_bad_request 'ticket'
+    assert_model_errors 'ticket'
     post :create, text: 'I found them.', ticket_id: new_ticket.id, user_id: ''
-    assert_bad_request 'user'
+    assert_model_errors 'user'
   end
 
+  it 'should not allow to create commets for guests' do
+    comment_count = new_ticket.comments.count
+    post :create, text: 'I found them.', ticket_id: new_ticket.id, user_id: user_id
+    assert_response :forbidden
+    assert_equal comment_count, Ticket.find(new_ticket.id).comments.count
+  end
 end
