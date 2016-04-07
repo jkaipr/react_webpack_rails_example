@@ -6,6 +6,11 @@ Rails.application.routes.draw do
       resources :tickets
       get 'comments/:ticket_id', to: 'comments#index'
       post 'comments/', to: 'comments#create'
+
+      # JWT auth
+      put 'refresh' => 'authentication#refresh'
+      post 'signin' => 'authentication#create', as: :signin
+
       # Not found route
       get '*unmatched_route', to: '/api#raise_not_found'
     end

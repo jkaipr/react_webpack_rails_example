@@ -1,6 +1,6 @@
-class Api::V1::AuthenticationController < ApiController
+class API::V1::AuthenticationController < ApiController
   before_action :authenticate_by_password!, only: :create
-  before_action :authenticate, only: [:signout, :refresh]
+  before_action :authenticate, only: :refresh
 
   def create
     token = auth_token_initial.token
@@ -13,6 +13,19 @@ class Api::V1::AuthenticationController < ApiController
   end
 
   private
+
+  def authenticate_by_password!
+    if user.present?
+      logged = user.authenticate(auth_params[:password])
+      if !logged
+        render_api_error('wrong-password', 'Wrong password', :bad_request)
+      else
+        logged
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+    render_api_error('unregistered', 'User not found', :bad_request)
+  end
 
   def auth_params
     params.require(:auth).permit Knock.handle_attr, :password

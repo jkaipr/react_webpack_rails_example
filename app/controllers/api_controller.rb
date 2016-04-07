@@ -8,6 +8,7 @@ class ApiController < ActionController::API
 
   respond_to :json
   protect_from_forgery with: :null_session
+  skip_before_filter :verify_authenticity_token
   rescue_from Exception, with: :render_error
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActionController::RoutingError, with: :render_not_found
@@ -34,6 +35,11 @@ class ApiController < ActionController::API
   end
 
   private
+
+  def render_api_error(code, title, status)
+    render json: { errors: [{ code: code, title: title }] },
+           status: status
+  end
 
   def render_error(exception)
     render_exception exception, 500, { message: 'Internal server error.' }
