@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'react_examples/component', to: 'react_examples#component', as: :component
+  # root 'react#root', as: :component
+  root 'page#home', as: :component
 
   namespace :api, :defaults => {:format => :json} do
     namespace :v1 do
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
 
       # JWT auth
       put 'refresh' => 'authentication#refresh'
-      post 'signin' => 'authentication#create', as: :signin
+      post 'login' => 'authentication#create'
 
       # Not found route
       get '*unmatched_route', to: '/api#raise_not_found'

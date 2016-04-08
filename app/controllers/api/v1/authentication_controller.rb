@@ -40,7 +40,7 @@ class API::V1::AuthenticationController < ApiController
   end
 
   def payload(user)
-    { sub: user.id, user: user.email, admin: user.is_admin }
+    { sub: user.id, email: user.email, admin: user.is_admin }
   end
 
   def user

@@ -24,7 +24,7 @@ class API::V1::TicketsController < ApiController
 
   def update
     if @ticket.update ticket_params
-      render_ok
+      render 'show', formats: :json
     else
       render_error
     end
@@ -32,7 +32,7 @@ class API::V1::TicketsController < ApiController
 
   def destroy
     if @ticket.destroy
-      render_ok
+      render_ok({ id: params[:id] })
     else
       render_error
     end
@@ -44,8 +44,8 @@ class API::V1::TicketsController < ApiController
     @ticket = Ticket.find params[:id]
   end
 
-  def render_ok
-    render json: { ok: true }
+  def render_ok(payload = {})
+    render json: payload.merge({ ok: true })
   end
 
   def render_error

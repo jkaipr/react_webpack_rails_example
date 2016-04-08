@@ -58,7 +58,13 @@ describe API::V1::TicketsController do
     authenticate users(:john)
     new_description = 'New description'
     put :update, id: new_ticket.id, description: new_description
-    assert_response_ok
+    ticket = JSON.parse(response.body)
+    assert_response :success
+    assert_equal ticket['id'], new_ticket.id
+    assert_equal ticket['subject'], new_ticket.subject
+    assert_equal ticket['description'], new_description
+    assert_equal ticket['user_id'], new_ticket.user_id
+    assert_equal ticket['state'], new_ticket.state
     assert_equal new_description, Ticket.find(new_ticket.id).description
   end
 
