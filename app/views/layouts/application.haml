@@ -2,9 +2,10 @@
 %html
   %head
     %title React Webpack Rails Example
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
   %body
+    #root
+      = yield
+    = javascript_include_tag 'application'
     = render 'layouts/react_hot_assets'
-    = yield
