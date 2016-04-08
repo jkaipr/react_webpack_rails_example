@@ -4,7 +4,7 @@ module.exports = function (config) {
   config.set({
     browsers: ['Chrome'],
     singleRun: true,
-    frameworks: ['mocha', 'sinon'],
+    frameworks: ['mocha', 'sinon-chai'],
     files: ['webpack/tests.config.js'],
     preprocessors: {
       'webpack/tests.config.js': ['webpack', 'sourcemap']
@@ -21,9 +21,9 @@ module.exports = function (config) {
       },
       watch: true,
       resolve: {
-        extensions: ["", ".js", ".jsx", ".js.jsx"]
+        extensions: ['', '.js', '.jsx', '.js.jsx']
       },
-      devtool: 'inline-source-map',
+      devtool: 'inline-source-map'
     },
     webpackServer: {
       noInfo: true

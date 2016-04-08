@@ -1,0 +1,37 @@
+*, *:after, *:before { -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  background: #444;
+  color: #fffce1;
+  font-family: 'Raleway', Arial, sans-serif;
+  overflow: hidden;
+}
+
+[data-reactid=".0"] {
+  height: 100%;
+}
+
+.app {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+#page-wrap {
+  height: 100%;
+  padding: 3em 2em;
+  text-align: center;
+  background: #b4bad2;
+  overflow: scroll;
+}
+

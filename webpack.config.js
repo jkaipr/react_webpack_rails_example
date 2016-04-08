@@ -1,11 +1,14 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const config = require('./app/react/config/defaults');
+
 
 module.exports = {
   entry: {
-    main: ['./app/react/index.js']
+    main: ['./app/react/main.jsx']
   },
   output: {
-    path: __dirname + '/app/assets/javascripts',
+    path: `${__dirname}/app/assets/javascripts`,
     filename: 'react_bundle.js'
   },
   module: {
@@ -17,14 +20,8 @@ module.exports = {
         loaders: ['babel']
       },
       {
-        key: 'scss',
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
-      },
-      {
-        key: 'css',
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css!sass')
+        loader: ExtractTextPlugin.extract('style', 'css!sass'),
+        test: /\.s?css$/
       }
     ]
   },
@@ -34,6 +31,10 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('../stylesheets/react_bundle.css', {
       allChunks: true
+    }),
+    new webpack.DefinePlugin({
+      APP_NAME: JSON.stringify(config.appName),
+      API_URL: JSON.stringify(config.apiUrl),
     })
   ]
 };
