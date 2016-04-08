@@ -9,6 +9,9 @@ gem 'knock', '~> 1.4'
 gem 'sqlite3'
 # Integrate Webpack and React
 gem 'react_webpack_rails', '~> 0.3.0'
+# TODO make isomporhic work
+# gem 'rwr-redux', '~> 0.1'
+# gem 'rwr-react_router', '~> 0.3'
 # Use hamlit for haml templates
 gem 'hamlit', '~> 2.2'
 # Use SCSS for stylesheets
