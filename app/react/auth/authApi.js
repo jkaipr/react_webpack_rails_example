@@ -4,7 +4,7 @@ export function fetchLogin(email, password) {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json; charset=utf-8',
+      'Content-Type': 'application/json; charset=utf-8'
     },
     body: JSON.stringify({ auth: { email, password } }),
     // Allows API to set http-only cookies with AJAX calls
@@ -19,14 +19,15 @@ export function fetchLogin(email, password) {
       return response.json();
     })
     .then(json => {
-      return { user: json };
+      return json;
     }, error => ({
       error
     }));
 }
 
-export const storeLocalUser = ({ id, email, token, expires }) => {
+export const storeLocalUser = ({ id, admin, email, token, expires }) => {
   localStorage.setItem('id', id);
+  localStorage.setItem('admin', admin);
   localStorage.setItem('email', email);
   localStorage.setItem('token', token);
   localStorage.setItem('expires', expires);
@@ -34,6 +35,7 @@ export const storeLocalUser = ({ id, email, token, expires }) => {
 
 export const removeLocalUser = () => {
   localStorage.removeItem('id');
+  localStorage.removeItem('admin');
   localStorage.removeItem('email');
   localStorage.removeItem('token');
   localStorage.removeItem('expires');

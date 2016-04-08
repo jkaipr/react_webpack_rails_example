@@ -23,22 +23,14 @@ export default (localStorage) => {
           loading: true
         };
 
-      case authActionTypes.login.SUCCESS: {
-        const jwtPayload = payload.jwt.split('.')[1];
-        const decoded = atob(jwtPayload);
-        const decodedJwtPayload = JSON.parse(decoded);
+      case authActionTypes.login.SUCCESS:
         return {
           ...state,
-          id: decodedJwtPayload.sub,
-          admin: decodedJwtPayload.admin,
-          email: decodedJwtPayload.email,
-          token: payload.jwt,
-          expires: decodedJwtPayload.exp,
+          ...payload,
           authenticated: true,
           error: false,
           loading: false
         };
-      }
 
       case authActionTypes.login.FAILURE:
         return {

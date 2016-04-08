@@ -2,6 +2,8 @@ import { routerActions } from 'react-router-redux';
 import { takeLatest } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
+import { decodeJwtPayload } from './authUtils';
+
 import {
   fetchLogin as fetchLoginApi,
   removeLocalUser as removeLocalUserApi,
@@ -9,13 +11,23 @@ import {
 } from './authApi';
 import authActions, { authActionTypes } from './authActions';
 
-export const login = (fetchSignIn, storeLocalUser) => function* loginSaga({
+export const login = (fetchLogin, storeLocalUser) => function* loginSaga({
   payload: { email, password, previousRoute }
   }) {
-  const { error, user } = yield call(fetchSignIn, email, password);
+  const { error, jwt } = yield call(fetchLogin, email, password);
   if (error) {
+    console.log('error', error);
     yield put(authActions.login.failure(error));
   } else {
+    console.log('jwt', jwt);
+    const decodedJwtPayload = decodeJwtPayload(jwt);
+    const user = {
+      id: decodedJwtPayload.sub,
+      admin: decodedJwtPayload.admin,
+      email: decodedJwtPayload.email,
+      token: jwt,
+      expires: decodedJwtPayload.exp
+    };
     yield call(storeLocalUser, user);
     yield put(authActions.login.success(user));
     yield put(routerActions.push(previousRoute));

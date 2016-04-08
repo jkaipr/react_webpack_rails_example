@@ -6,14 +6,31 @@ import { bindActionCreators } from 'redux';
 import { slide as SideMenu } from 'react-burger-menu';
 
 import menuActions from './menuActions';
+import authActions from './../auth/authActions';
 
 const RLink = Radium(Link);
 
+
 export const AppMenu = (props) => {
-  const { hide, isOpen, pageWrapId, outerContainerId } = props;
+  const { authenticated, hide, logout, isOpen, pageWrapId, outerContainerId } = props;
+  const logoutUser = () => {
+    logout();
+    hide();
+  };
+  let authLink = null;
+
+  if (authenticated) {
+    authLink = (
+      <RLink onClick={logoutUser} to="/tickets">
+        <span>Logout</span>
+      </RLink>);
+  } else {
+    authLink = <RLink onClick={hide} to="/login"><span>Login</span></RLink>;
+  }
+
   return (
     <SideMenu isOpen={isOpen} pageWrapId={pageWrapId} outerContainerId={outerContainerId}>
-      <RLink onClick={hide} to="/login"><span>Login</span></RLink>
+      {authLink}
       <RLink onClick={hide} to="/tickets"><span>Tickets</span></RLink>
       <RLink onClick={hide} to="/comments"><span>Comments</span></RLink>
     </SideMenu>
@@ -21,19 +38,23 @@ export const AppMenu = (props) => {
 };
 
 AppMenu.propTypes = {
+  authenticated: PropTypes.bool,
   isOpen: PropTypes.bool,
-  hide: PropTypes.func.isRequired
+  hide: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    isOpen: state.menu.showMenu
+    isOpen: state.menu.showMenu,
+    authenticated: state.auth.authenticated
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    hide: menuActions.hide.request
+    hide: menuActions.hide.request,
+    logout: authActions.logout.request
   }, dispatch);
 }
 
