@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { Button, ButtonToolbar, Col, Label, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { goBack } from 'react-router-redux';
 import ticketActions from './ticketActions';
 
 // component
@@ -15,16 +17,52 @@ class Ticket extends Component {
       return <div>Loading...</div>;
     }
 
-    const { updateTicket, destroyTicket } = this.props;
+    const { admin, authenticated, destroyTicket, updateTicket, userId } = this.props;
+
+    const canEdit = admin || (authenticated && userId === ticket.user_id);
+
     return (
-      <div>
+      <div className="container ticket">
+        <Button bsStyle="info" onclick={goBack}>Back</Button>
         {loading || !ticket && <div>Loading...</div>}
         {!loading && ticket &&
-          <div>
-            <h1>{name}</h1>
-            <div className="description">
-              {ticket.description}
-            </div>
+          <div className="well">
+            <h1>{ticket.subject}</h1>
+            <Row>
+              <Col sm={2}>
+                <Label>State</Label>
+              </Col>
+              <Col sm={10}>
+                <span>{ticket.state}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={2}>
+                <Label>Description</Label>
+              </Col>
+              <Col sm={10}>
+                <span>{ticket.description}</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={2}>
+                <Label>Created</Label>
+              </Col>
+              <Col sm={10}>
+                <span>{ticket.created_at}</span>
+              </Col>
+            </Row>
+
+            {canEdit &&
+              <ButtonToolbar>
+                <Button
+                  className="delete-btn"
+                  bsStyle="danger"
+                  onClick={destroyTicket}
+                >Delete</Button>
+                <Button bsStyle="primary" onClick={updateTicket}>Update</Button>
+              </ButtonToolbar>
+            }
           </div>
         }
       </div>
@@ -33,23 +71,30 @@ class Ticket extends Component {
 }
 
 Ticket.propTypes = {
+  admin: PropTypes.bool.isRequired,
+  authenticated: PropTypes.bool.isRequired,
   destroyTicket: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   loadTicket: PropTypes.func.isRequired,
   updateTicket: PropTypes.func.isRequired,
+  userId: PropTypes.number.isRequired,
   ticket: PropTypes.shape({
-    createdAt: PropTypes.string,
+    created_at: PropTypes.string,
     description: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
-    subject: PropTypes.string.isRequired
+    subject: PropTypes.string.isRequired,
+    user_id: PropTypes.number.isRequired
   })
 };
 
 // container
 function mapStateToProps(state) {
   return {
+    admin: state.auth.admin,
+    authenticated: state.auth.authenticated,
     loading: state.ticket.loading,
-    ticket: state.ticket.ticket
+    ticket: state.ticket.ticket,
+    userId: state.auth.id
   };
 }
 

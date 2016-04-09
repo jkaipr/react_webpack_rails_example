@@ -43,6 +43,7 @@
     "isomorphic-fetch": "^2.2.0",
     "node-sass": "^3.4.1",
     "react": "^0.14.0",
+    "react-bootstrap": "^0.28.5",
     "react-burger-menu": "^1.6.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.4.0",

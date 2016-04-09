@@ -22,7 +22,9 @@
 @import "../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/labels";
 @import "../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/list-group";
 @import "../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/wells";
 
 
 @import './app';
-@import './menu';
+@import '../../menu/css/menu';
+@import '../../tickets/css/ticket';
