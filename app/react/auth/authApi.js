@@ -30,7 +30,7 @@ export const storeLocalUser = ({ id, admin, email, token, expires }) => {
   localStorage.setItem('admin', admin);
   localStorage.setItem('email', email);
   localStorage.setItem('token', token);
-  localStorage.setItem('expires', expires);
+  localStorage.setItem('expires', expires * 1000);
 };
 
 export const removeLocalUser = () => {

@@ -1,10 +1,12 @@
 import { authActionTypes } from './authActions';
 
 export default (localStorage) => {
+  const isAdminStorage = localStorage.getItem('admin');
+  const isAdmin = isAdminStorage === 'true' || isAdminStorage === true;
   const initialState = {
-    id: localStorage.getItem('id'),
+    id: parseInt(localStorage.getItem('id'), 10),
     email: localStorage.getItem('email'),
-    admin: localStorage.getItem('admin'),
+    admin: isAdmin,
     token: localStorage.getItem('token'),
     expires: localStorage.getItem('expires'),
     authenticated: !!localStorage.getItem('token') &&
