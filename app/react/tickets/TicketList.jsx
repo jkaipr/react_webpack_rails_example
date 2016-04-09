@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import Loading from './../app/Loading';
 import TicketItem from './TicketListItem';
 import ticketActions from './ticketActions';
 
@@ -13,19 +14,19 @@ class TicketList extends Component {
   render() {
     const { loading, tickets } = this.props;
 
+    if (loading || !tickets) {
+      return <Loading />;
+    }
+
     return (
       <div className="container">
         <div className="row tickets-list">
-          {loading && <div>Loading...</div>}
-          {!loading &&
-            <div className="list-group">
-              {tickets.map(ticket => (
-                <TicketItem key={ticket.id} {...ticket} />
-                ))
-              }
-            </div>
-          }
-          <div></div>
+          <div className="list-group">
+            {tickets.map(ticket => (
+              <TicketItem key={ticket.id} {...ticket} />
+              ))
+            }
+          </div>
         </div>
       </div>
     );

@@ -2,8 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Button, ButtonToolbar, Col, Label, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { goBack } from 'react-router-redux';
+import { Link } from 'react-router';
+
 import ticketActions from './ticketActions';
+import Loading from './../app/Loading';
+import TicketStatusBadge from './TicketStatusBadge';
 
 // component
 class Ticket extends Component {
@@ -13,58 +16,55 @@ class Ticket extends Component {
 
   render() {
     const { ticket, loading } = this.props;
+
     if (loading || !ticket) {
-      return <div>Loading...</div>;
+      return <Loading />;
     }
 
     const { admin, authenticated, destroyTicket, updateTicket, userId } = this.props;
-
     const canEdit = admin || (authenticated && userId === ticket.user_id);
 
     return (
       <div className="container ticket">
-        <Button bsStyle="info" onclick={goBack}>Back</Button>
-        {loading || !ticket && <div>Loading...</div>}
-        {!loading && ticket &&
-          <div className="well">
-            <h1>{ticket.subject}</h1>
-            <Row>
-              <Col sm={2}>
-                <Label>State</Label>
-              </Col>
-              <Col sm={10}>
-                <span>{ticket.state}</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={2}>
-                <Label>Description</Label>
-              </Col>
-              <Col sm={10}>
-                <span>{ticket.description}</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={2}>
-                <Label>Created</Label>
-              </Col>
-              <Col sm={10}>
-                <span>{ticket.created_at}</span>
-              </Col>
-            </Row>
+        <Link to="/tickets"><Button bsStyle="info" onClick={this.backToList}>Back</Button></Link>
+        <div className="well">
+          <h1>{ticket.subject}</h1>
+          <Row>
+            <Col sm={2}>
+              <b>State</b>
+            </Col>
+            <Col sm={10}>
+              <TicketStatusBadge state={ticket.state} />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={2}>
+              <b>Description</b>
+            </Col>
+            <Col sm={10}>
+              <span>{ticket.description}</span>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={2}>
+              <b>Created</b>
+            </Col>
+            <Col sm={10}>
+              <span>{ticket.created_at}</span>
+            </Col>
+          </Row>
 
-            {canEdit &&
-              <ButtonToolbar>
-                <Button
-                  className="delete-btn"
-                  bsStyle="danger"
-                  onClick={destroyTicket}
-                >Delete</Button>
-                <Button bsStyle="primary" onClick={updateTicket}>Update</Button>
-              </ButtonToolbar>
-            }
-          </div>
-        }
+          {canEdit &&
+            <ButtonToolbar>
+              <Button
+                className="delete-btn"
+                bsStyle="danger"
+                onClick={destroyTicket}
+              >Delete</Button>
+              <Button bsStyle="primary" onClick={updateTicket}>Update</Button>
+            </ButtonToolbar>
+          }
+        </div>
       </div>
     );
   }
