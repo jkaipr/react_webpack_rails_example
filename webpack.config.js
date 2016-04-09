@@ -1,7 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
-const config = require('./app/react/config/defaults');
-
+const config = require('./app/react/app/config/defaults');
 
 module.exports = {
   entry: {
@@ -35,6 +34,7 @@ module.exports = {
     new webpack.DefinePlugin({
       APP_NAME: JSON.stringify(config.appName),
       API_URL: JSON.stringify(config.apiUrl),
+      ENABLE_DEV_TOOLS: JSON.stringify(config.enableDevTools)
     })
   ]
 };

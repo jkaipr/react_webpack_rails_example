@@ -3,5 +3,6 @@ const apiUrl = `http://localhost:${apiPort}`; // eslint-disable-line no-var
 
 module.exports = {
   appName: 'React Webpack Rails App',
-  apiUrl: `${apiUrl}/api/v1`
+  apiUrl: `${apiUrl}/api/v1`,
+  enableDevTools: true
 };
