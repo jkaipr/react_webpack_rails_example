@@ -27,6 +27,7 @@ export default (localStorage) => {
         return {
           ...state,
           ...payload,
+          expires: payload.expires * 1000,
           authenticated: true,
           error: false,
           loading: false
