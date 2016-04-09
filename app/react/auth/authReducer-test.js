@@ -34,10 +34,14 @@ describe('auth reducer', () => {
       getItem
     };
     const reducer = reducerFactory(localStorage);
-    const jwt = { jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obi5kb2VAYWNtZS5jb20iLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNDYwMTE1MDk0NjM2fQ.5i_ngAvgTLjC57e6ZUUHB8iMxoG5xwWvc-t1wO7dzRw' };  // eslint-disable-line max-len
 
-    const reducerResult = reducer(undefined, authActions.login.success(jwt));
-    console.log(reducerResult);
+    const reducerResult = reducer(undefined, authActions.login.success({
+      admin: true,
+      id: 1,
+      email: 'john.doe@acme.com',
+      token: 'jwtoken',
+      expires: 1460115094636
+    }));
     expect(reducerResult).to.deep.equal({
       authenticated: true,
       admin: true,
@@ -45,8 +49,8 @@ describe('auth reducer', () => {
       id: 1,
       email: 'john.doe@acme.com',
       loading: false,
-      token: jwt.jwt,
-      expires: 1460115094636
+      token: 'jwtoken',
+      expires: 1460115094636000
     });
   });
 

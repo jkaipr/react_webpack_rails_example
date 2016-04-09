@@ -16,10 +16,8 @@ export const login = (fetchLogin, storeLocalUser) => function* loginSaga({
   }) {
   const { error, jwt } = yield call(fetchLogin, email, password);
   if (error) {
-    console.log('error', error);
     yield put(authActions.login.failure(error));
   } else {
-    console.log('jwt', jwt);
     const decodedJwtPayload = decodeJwtPayload(jwt);
     const user = {
       id: decodedJwtPayload.sub,

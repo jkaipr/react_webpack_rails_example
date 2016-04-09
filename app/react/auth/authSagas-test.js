@@ -9,60 +9,70 @@ import {
 } from './authSagas';
 import authActions from './authActions';
 
-describe('userSagas', () => {
+describe('authSagas', () => {
   describe('login', () => {
-    const fetchSignIn = sinon.spy();
+    const testEmail = 'test_email';
+    const testPassword = 'test_password';
+    const jwt = { jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obi5kb2VAYWNtZS5jb20iLCJhZG1pbiI6dHJ1ZSwiZXhwIjoxNDYwMTE1MDk0NjM2fQ.5i_ngAvgTLjC57e6ZUUHB8iMxoG5xwWvc-t1wO7dzRw' };  // eslint-disable-line max-len
+    const auth = {
+      id: 1,
+      admin: true,
+      email: 'john.doe@acme.com',
+      token: jwt.jwt,
+      expires: 1460115094636
+    };
     const storeLocalUser = sinon.spy();
-    const loginSaga = loginSagaFactory(fetchSignIn, storeLocalUser);
+    const fetchLogin = sinon.spy();
 
-    it('should call the fetchSignIn function after a SIGN_IN action', () => {
+    const loginSaga = loginSagaFactory(fetchLogin, storeLocalUser);
+
+    it('should call the fetchLogin function after a login action', () => {
       const saga = loginSaga(authActions.login.request('/next-route', {
-        email: 'test_email',
-        password: 'test_password'
+        email: testEmail,
+        password: testPassword
       }));
 
       expect(saga.next().value).to
-        .deep.equal(call(fetchSignIn, 'test_email', 'test_password'));
+        .deep.equal(call(fetchLogin, testEmail, testPassword));
     });
 
     it('should call the storeLocalUser function after a successful login', () => {
       const saga = loginSaga(authActions.login.request('/next-route', {
-        email: 'test_email',
-        password: 'test_password'
+        email: testEmail,
+        password: testPassword
       }));
+
 
       saga.next();
 
-      expect(saga.next({ user: { id: 'foo' } }).value).to
-        .deep.equal(call(storeLocalUser, { id: 'foo' }));
+      expect(saga.next(jwt).value).to
+        .deep.equal(call(storeLocalUser, auth));
     });
 
     it('should put the logged in action after a successful login', () => {
       const saga = loginSaga(authActions.login.request('/next-route', {
-        email: 'test_email',
-        password: 'test_password'
+        email: testEmail,
+        password: testPassword
       }));
 
       saga.next();
 
-      saga.next({
-        user: { id: 'foo' }
-      });
+      saga.next(jwt);
 
-      expect(saga.next().value).to.deep.equal(put(authActions.login.success({ id: 'foo' })));
+      const nextValue = saga.next().value;
+      const putLoginAcion = put(authActions.login.success(auth));
+      expect(nextValue).to.deep.equal(putLoginAcion);
     });
 
     it('should put the routerActions.push action after a successful login', () => {
       const saga = loginSaga(authActions.login.request('/next-route', {
-        email: 'test_email',
-        password: 'test_password'
+        email: testEmail,
+        password: testPassword
       }));
 
       saga.next();
 
-      saga.next({
-        user: { id: 'foo' }
-      });
+      saga.next(jwt);
 
       saga.next();
 
@@ -71,8 +81,8 @@ describe('userSagas', () => {
 
     it('should put the login action with error after a failed login', () => {
       const saga = loginSaga(authActions.login.request('/next-route', {
-        email: 'test_email',
-        password: 'test_password'
+        email: testEmail,
+        password: testPassword
       }));
       const error = new Error('It broke!');
 
@@ -93,7 +103,7 @@ describe('userSagas', () => {
       expect(saga.next().value).to.deep.equal(call(removeLocalUser));
     });
 
-    it('should put the signedOut action', () => {
+    it('should put the logout action', () => {
       const saga = logoutSaga(authActions.logout.request());
 
       saga.next();
