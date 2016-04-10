@@ -4,7 +4,6 @@ import { routerActions } from 'react-router-redux';
 import { reduxForm, propTypes as formPropTypes } from 'redux-form';
 
 import Loading from './../app/Loading';
-import BackToListBtn from './BackToListBtn';
 import TicketFormInputs, { ticketSchema } from './TicketFormInputs';
 import ticketActions from './ticketActions';
 

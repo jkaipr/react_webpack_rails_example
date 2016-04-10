@@ -7,7 +7,6 @@ import { routerActions } from 'react-router-redux';
 
 import ticketActions from './ticketActions';
 
-import BackToListBtn from './BackToListBtn';
 import Loading from './../app/Loading';
 import TicketStatusBadge from './TicketStatusBadge';
 
