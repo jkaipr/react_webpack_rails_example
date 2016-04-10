@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default () => <div style={{ 'text-align': 'center' }}>Loading...</div>;
+export default () => <div style={{ textAlign: 'center' }}>Loading...</div>;
