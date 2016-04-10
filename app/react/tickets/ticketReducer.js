@@ -1,4 +1,5 @@
 import { ticketActionTypes } from './ticketActions';
+import { extend } from 'lodash';
 
 const initialState = {
   tickets: [],
@@ -13,11 +14,19 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ticketActionTypes.list.REQUEST:
     case ticketActionTypes.item.REQUEST:
-    case ticketActionTypes.create.REQUEST:
-    case ticketActionTypes.update.REQUEST:
     case ticketActionTypes.destroy.REQUEST:
       return {
         ...state,
+        loading: true
+      };
+    case ticketActionTypes.create.REQUEST:
+    case ticketActionTypes.update.REQUEST:
+      return {
+        ...state,
+        ticket: extend(Object.create(state.ticket), {
+          subject: payload.subject,
+          description: payload.description
+        }),
         loading: true
       };
 

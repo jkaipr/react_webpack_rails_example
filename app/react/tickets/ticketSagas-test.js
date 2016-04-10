@@ -89,7 +89,7 @@ describe('ticketSagas', () => {
     const createTicket = sinon.spy();
     const getState = sinon.stub().returns({
       auth: { token: 'blublu' },
-      tickets: {
+      ticket: {
         ticket: {
           user_id: 1,
           subject: 'Subject',
@@ -138,7 +138,7 @@ describe('ticketSagas', () => {
     const updateTicket = sinon.spy();
     const getState = sinon.stub().returns({
       auth: { token: 'blublu' },
-      tickets: {
+      ticket: {
         ticket: {
           user_id: 1,
           subject: 'Subject',
@@ -151,11 +151,14 @@ describe('ticketSagas', () => {
     it('should call the updateTicket function', () => {
       const saga = updateTicketSaga(ticketActions.update.request());
 
-      expect(saga.next().value).to.deep.equal(call(updateTicket, {
-        user_id: 1,
+      const nextValue = saga.next().value;
+      const updateTicketCall = call(updateTicket, {
         subject: 'Subject',
         description: 'Description'
-      }, 'blublu'));
+      }, 'blublu');
+      expect(nextValue.CALL.args[0].subject).to.equal(updateTicketCall.CALL.args[0].subject);
+      expect(nextValue.CALL.args[0].description).to.equal(updateTicketCall.CALL.args[0].description);
+      expect(nextValue.CALL.args[1]).to.equal(updateTicketCall.CALL.args[1]);
     });
 
     it('should put the ticketActions.update.success action with ticket on successful fetch', () => { // eslint-disable-line max-len
@@ -163,13 +166,19 @@ describe('ticketSagas', () => {
 
       saga.next();
 
-      expect(saga.next({
+      const nextValue = saga.next({
         ticket: {
-          id: 42
+          subject: 'Subject',
+          description: 'Description'
         }
-      }).value).to.deep.equal(put(ticketActions.update.success({
-        id: 42
-      })));
+      }).value;
+      const putUpdateTicket = put(ticketActions.update.success({
+        subject: 'Subject',
+        description: 'Description'
+      }));
+      expect(nextValue.PUT.payload.subject).to.equal(putUpdateTicket.PUT.payload.subject);
+      expect(nextValue.PUT.payload.description).to.equal(putUpdateTicket.PUT.payload.description);
+      expect(nextValue.PUT.type).to.equal(putUpdateTicket.PUT.type);
     });
 
     it('should put the ticketActions.update.failure action with error on failed fetch', () => {
@@ -187,13 +196,13 @@ describe('ticketSagas', () => {
     const destroyTicket = sinon.spy();
     const getState = sinon.stub().returns({
       auth: { token: 'blublu' },
-      tickets: {
+      ticket: {
         ticket: {
           user_id: 1,
           subject: 'Subject',
           description: 'Description'
         },
-        tickets: [{ id: 1 }]
+        ticket: [{ id: 1 }]
       }
     });
     const destroyTicketSaga = destroyTicketSagaFactory(destroyTicket, getState);
@@ -202,7 +211,7 @@ describe('ticketSagas', () => {
       const saga = destroyTicketSaga(ticketActions.destroy.request());
 
       const nextValue = saga.next().value;
-      const destroyTicketCall = call(destroyTicket, getState().tickets.ticket, 'blublu');
+      const destroyTicketCall = call(destroyTicket, getState().ticket.ticket, 'blublu');
       expect(nextValue).to.deep.equal(destroyTicketCall);
     });
 
@@ -210,7 +219,7 @@ describe('ticketSagas', () => {
       const saga = destroyTicketSaga(ticketActions.destroy.request());
 
       const nextValue = saga.next().value;
-      const destroyTicketPut = put(ticketActions.destroy.success(getState().tickets.ticket));
+      const destroyTicketPut = put(ticketActions.destroy.success(getState().ticket.ticket));
 
       expect(nextValue.CALL.args[0]).to.deep.equal(destroyTicketPut.PUT.payload);
     });

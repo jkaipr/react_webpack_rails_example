@@ -3,15 +3,28 @@ import { Button, ButtonToolbar, Col, Label, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { routerActions } from 'react-router-redux';
 
 import ticketActions from './ticketActions';
+
+import BackToListBtn from './BackToListBtn';
 import Loading from './../app/Loading';
 import TicketStatusBadge from './TicketStatusBadge';
 
 // component
 class Ticket extends Component {
+  constructor() {
+    super();
+    this.backToList = this.backToList.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadTicket(this.props.params.id);
+  }
+
+  backToList() {
+    const { routerPush } = this.props;
+    routerPush('/tickets');
   }
 
   render() {
@@ -21,12 +34,12 @@ class Ticket extends Component {
       return <Loading />;
     }
 
-    const { admin, authenticated, destroyTicket, updateTicket, userId } = this.props;
+    const { admin, authenticated, destroyTicket, userId } = this.props;
     const canEdit = admin || (authenticated && userId === ticket.user_id);
 
     return (
       <div className="container ticket">
-        <Link to="/tickets"><Button bsStyle="info" onClick={this.backToList}>Back</Button></Link>
+        <Button onClick={this.backToList}>Back to list</Button>
         <div className="well">
           <h1>{ticket.subject}</h1>
           <Row>
@@ -61,7 +74,9 @@ class Ticket extends Component {
                 bsStyle="danger"
                 onClick={destroyTicket}
               >Delete</Button>
-              <Button bsStyle="primary" onClick={updateTicket}>Update</Button>
+              <Link to={`/tickets/${ticket.id}/edit`}>
+                <Button bsStyle="primary">Edit</Button>
+              </Link>
             </ButtonToolbar>
           }
         </div>
@@ -76,11 +91,12 @@ Ticket.propTypes = {
   destroyTicket: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   loadTicket: PropTypes.func.isRequired,
-  updateTicket: PropTypes.func.isRequired,
+  routerPush: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
   ticket: PropTypes.shape({
     created_at: PropTypes.string,
     description: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     state: PropTypes.string.isRequired,
     subject: PropTypes.string.isRequired,
     user_id: PropTypes.number.isRequired
@@ -100,9 +116,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    destroyTicket: ticketActions.destroy.request,
     loadTicket: ticketActions.item.request,
-    updateTicket: ticketActions.update.request,
-    destroyTicket: ticketActions.destroy.request
+    routerPush: routerActions.push
   }, dispatch);
 }
 

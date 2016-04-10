@@ -23,7 +23,7 @@ export const createTicket = (ticketCreate, getState) => function* createTicketSa
   const {
     error,
     ticket
-    } = yield call(ticketCreate, state.tickets.ticket, state.auth.token);
+    } = yield call(ticketCreate, state.ticket.ticket, state.auth.token);
 
   if (error) {
     yield put(ticketActions.create.failure(error));
@@ -38,12 +38,12 @@ export const updateTicket = (ticketUpdate, getState) => function* updateTicketSa
   const {
     error,
     ticket
-    } = yield call(ticketUpdate, state.tickets.ticket, state.auth.token);
+    } = yield call(ticketUpdate, state.ticket.ticket, state.auth.token);
 
   if (error) {
     yield put(ticketActions.update.failure(error));
   } else {
-    yield put(ticketActions.update.success(ticket));
+    yield put(ticketActions.update.success(state.ticket.ticket));
     yield put(routerActions.push(`/tickets/${ticket.id}`));
   }
 };
@@ -53,7 +53,7 @@ export const destroyTicket = (ticketDestroy, getState) => function* destroyTicke
   const {
     error,
     success
-    } = yield call(ticketDestroy, state.tickets.ticket, state.auth.token);
+    } = yield call(ticketDestroy, state.ticket.ticket, state.auth.token);
 
   if (error) {
     yield put(ticketActions.destroy.failure(error));

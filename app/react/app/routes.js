@@ -1,7 +1,7 @@
 import App from './App';
 import authRoutes from '../auth/authRoutes';
 import commentRoutes from '../comments/commentRoutes';
-import ticketRoutes from '../tickets/ticketRoutes';
+import ticketRoutesFactory from '../tickets/ticketRoutes';
 
 export default (store) => ({
   component: 'div',
@@ -11,7 +11,7 @@ export default (store) => ({
     childRoutes: [
       ...authRoutes,
       ...commentRoutes,
-      ...ticketRoutes
+      ...ticketRoutesFactory(store)
     ]
   }]
 });
