@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
 import { routerActions } from 'react-router-redux';
 import { reduxForm, propTypes as formPropTypes } from 'redux-form';
 
-import Loading from './../app/Loading';
-import TicketFormInputs, { ticketSchema } from './TicketFormInputs';
+import TicketForm from './TicketForm';
+import { ticketSchema } from './TicketFormInputs';
 import ticketActions from './ticketActions';
 
 const FORM_NAME = 'editTicket';
@@ -15,38 +14,22 @@ class EditTicket extends Component {
     this.backToDetail = this.backToDetail.bind(this);
   }
 
-  componentDidMount() {
-    if (!this.props.ticket) this.props.loadTicket(this.props.params.id);
-  }
-
   backToDetail() {
     const { ticket: { id }, routerPush } = this.props;
     routerPush(`/tickets/${id}`);
   }
 
   render() {
-    const { fields: { subject, description },
-      handleSubmit, loading, submitting, submitFailed, ticket, ticketError, update } = this.props;
-
-    if (loading || !ticket) {
-      return <Loading />;
-    }
+    const { update, ...rest } = this.props;
 
     return (
-      <div className="container ticket">
-        <Button onClick={this.backToDetail}>Back to detail</Button>
-        <div className="well">
-          <h2>Edit ticket</h2>
-          <form onSubmit={handleSubmit(
-            update.bind(null, {
-              subject: subject.value,
-              description: description.value
-            }))}
-          >
-            <TicketFormInputs {...{ subject, description, ticketError, submitLabel: 'Update' }} />
-          </form>
-        </div>
-      </div>
+      <TicketForm
+        backBtnLabel="Back to detail"
+        onBack={this.backToDetail}
+        submitBtnLabel="Update"
+        onSubmit={update}
+        {...rest}
+      />
     );
   }
 }
@@ -69,8 +52,8 @@ export default reduxForm({
   validate: ticketSchema.validate
 }, state => ({
   admin: state.auth.admin,
-  initialValues: state.ticket.ticket,
   loading: state.ticket.loading,
+  initialValues: state.ticket.ticket,
   ticketError: state.ticket.error,
   ticket: state.ticket.ticket,
   userId: state.auth.id
