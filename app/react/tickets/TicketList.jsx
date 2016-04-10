@@ -1,14 +1,25 @@
 import React, { Component, PropTypes } from 'react';
+import { Button, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { routerActions } from 'react-router-redux';
 
 import Loading from './../app/Loading';
 import TicketItem from './TicketListItem';
 import ticketActions from './ticketActions';
 
 class TicketList extends Component {
+  constructor() {
+    super();
+    this.newTicket = this.newTicket.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadTickets();
+  }
+
+  newTicket() {
+    this.props.routerPush('/tickets/new');
   }
 
   render() {
@@ -20,6 +31,9 @@ class TicketList extends Component {
 
     return (
       <div className="container">
+        <Row className="bottom-margin-15">
+          <Button bsStyle="primary" onClick={this.newTicket}>New ticket</Button>
+        </Row>
         <div className="row tickets-list">
           <div className="list-group">
             {tickets.map(ticket => (
@@ -37,6 +51,7 @@ class TicketList extends Component {
 TicketList.propTypes = {
   loading: PropTypes.bool.isRequired,
   loadTickets: PropTypes.func.isRequired,
+  routerPush: PropTypes.func.isRequired,
   tickets: PropTypes.array
 };
 
@@ -49,7 +64,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    loadTickets: ticketActions.list.request
+    loadTickets: ticketActions.list.request,
+    routerPush: routerActions.push
   }, dispatch);
 }
 

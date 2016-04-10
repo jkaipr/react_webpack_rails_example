@@ -133,7 +133,7 @@ describe('ticket reducer', () => {
     ).to.deep.equal({
       error: null,
       ticket: null,
-      tickets: [],
+      tickets: [{ id: 1 }],
       loading: false
     });
   });

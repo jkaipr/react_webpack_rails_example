@@ -15,15 +15,20 @@ class Ticket extends Component {
   constructor() {
     super();
     this.backToList = this.backToList.bind(this);
+    this.destroyTicket = this.destroyTicket.bind(this);
+  }
+
+  backToList() {
+    const { routerPush } = this.props;
+    routerPush('/tickets');
   }
 
   componentDidMount() {
     this.props.loadTicket(this.props.params.id);
   }
 
-  backToList() {
-    const { routerPush } = this.props;
-    routerPush('/tickets');
+  destroyTicket() {
+    this.props.destroyTicket(this.props.ticket);
   }
 
   render() {
@@ -71,7 +76,7 @@ class Ticket extends Component {
               <Button
                 className="delete-btn"
                 bsStyle="danger"
-                onClick={destroyTicket}
+                onClick={this.destroyTicket}
               >Delete</Button>
               <Link to={`/tickets/${ticket.id}/edit`}>
                 <Button bsStyle="primary">Edit</Button>

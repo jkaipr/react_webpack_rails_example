@@ -4,7 +4,7 @@ import { fetchEntitiesFactory, fetchEntityFactory } from '../app/factories/fetch
 export const fetchTickets = fetchEntitiesFactory('tickets');
 export const fetchTicket = fetchEntityFactory('tickets');
 
-export const createTicket = (userId, subject, description, jwt) => fetch(`${API_URL}/tickets`, {
+export const createTicket = (ticket, jwt) => fetch(`${API_URL}/tickets`, {
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
@@ -14,7 +14,7 @@ export const createTicket = (userId, subject, description, jwt) => fetch(`${API_
   // @see http://www.redotheweb.com/2015/11/09/api-security.html
   credentials: 'include',
   method: 'POST',
-  body: JSON.stringify({ user_id: userId, description, subject })
+  body: JSON.stringify({ description: ticket.description, subject: ticket.description })
 })
   .then(response => {
     if (!response.ok) {

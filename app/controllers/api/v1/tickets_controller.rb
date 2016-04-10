@@ -10,9 +10,10 @@ class API::V1::TicketsController < ApiController
 
   def create
     @ticket = Ticket.new ticket_params
+    @ticket.user_id = current_user.id
 
     if @ticket.save
-      render_ok
+      render 'show', formats: :json
     else
       render_error
     end

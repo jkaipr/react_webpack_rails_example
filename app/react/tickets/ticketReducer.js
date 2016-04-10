@@ -82,7 +82,6 @@ export default (state = initialState, { type, payload }) => {
     case ticketActionTypes.destroy.SUCCESS:
       return {
         ...state,
-        tickets: tickets.filter(ticket => ticket.id !== payload.id),
         error: null,
         loading: false
       };

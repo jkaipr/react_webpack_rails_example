@@ -31,9 +31,15 @@ describe API::V1::TicketsController do
   it 'should create new ticket' do
     authenticate users(:jane)
     count = Ticket.count
-    post :create, subject: 'Problem', description: 'Solve it please', user_id: users(:jane).id
+    description = 'Solve it please'
+    subject = 'Problem'
+    post :create, subject: subject, description: description, user_id: users(:jane).id
+    ticket = JSON.parse(response.body)
     assert_response :success
-    assert JSON.parse(response.body)['ok']
+    assert_equal ticket['subject'], subject
+    assert_equal ticket['description'], description
+    assert_equal ticket['user_id'], users(:jane).id
+    assert_equal ticket['state'], 'open'
     assert_equal count + 1, Ticket.count
   end
 
@@ -44,14 +50,12 @@ describe API::V1::TicketsController do
     assert_equal count, Ticket.count
   end
 
-  it 'should not create ticket without subject, description, user' do
+  it 'should not create ticket without subject, description' do
     authenticate users(:jane)
     post :create, subject: '', description: 'Solve it please', user_id: users(:jane).id
     assert_model_errors 'subject'
     post :create, subject: 'Problem', description: '', user_id: users(:jane).id
     assert_model_errors 'description'
-    post :create, subject: 'Problem', description: 'Solve it please', user_id: ''
-    assert_model_errors 'user'
   end
 
   it 'should update ticket description' do
