@@ -43,7 +43,7 @@ export const updateTicket = (ticketUpdate, getState) => function* updateTicketSa
   if (error) {
     yield put(ticketActions.update.failure(error));
   } else {
-    yield put(ticketActions.update.success(state.ticket.ticket));
+    yield put(ticketActions.update.success(ticket));
     yield put(routerActions.push(`/tickets/${ticket.id}`));
   }
 };
