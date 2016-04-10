@@ -23,7 +23,7 @@ class TicketList extends Component {
   }
 
   render() {
-    const { loading, tickets } = this.props;
+    const { authenticated, loading, tickets } = this.props;
 
     if (loading || !tickets) {
       return <Loading />;
@@ -31,9 +31,11 @@ class TicketList extends Component {
 
     return (
       <div className="container">
-        <Row className="bottom-margin-15">
-          <Button bsStyle="primary" onClick={this.newTicket}>New ticket</Button>
-        </Row>
+        {authenticated &&
+          <Row className="bottom-margin-15">
+            <Button bsStyle="primary" onClick={this.newTicket}>New ticket</Button>
+          </Row>
+        }
         <div className="row tickets-list">
           <div className="list-group">
             {tickets.map(ticket => (
@@ -49,6 +51,7 @@ class TicketList extends Component {
 
 
 TicketList.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   loadTickets: PropTypes.func.isRequired,
   routerPush: PropTypes.func.isRequired,
@@ -57,6 +60,7 @@ TicketList.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    authenticated: state.auth.authenticated,
     loading: state.ticket.loading,
     tickets: state.ticket.tickets
   };
