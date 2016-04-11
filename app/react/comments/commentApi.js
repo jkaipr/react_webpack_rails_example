@@ -1,6 +1,6 @@
 /* globals API_URL */
 
-export const fetchComments = (ticket, jwt) => fetch(`${API_URL}/comments`, {
+export const fetchComments = (ticketId, jwt) => fetch(`${API_URL}/comments/${ticketId}`, {
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
@@ -9,10 +9,10 @@ export const fetchComments = (ticket, jwt) => fetch(`${API_URL}/comments`, {
   // Allows API to set http-only cookies with AJAX calls
   // @see http://www.redotheweb.com/2015/11/09/api-security.html
   credentials: 'include',
-  method: 'POST',
-  body: JSON.stringify({ ticket_id: ticket.id })
+  method: 'GET',
 })
   .then(response => {
+    console.log('response', response);
     if (!response.ok) {
       return response.text().then(result => Promise.reject(new Error(result)));
     }

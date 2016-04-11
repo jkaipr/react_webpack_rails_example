@@ -14,7 +14,7 @@ describe('commentSagas', () => {
     const fetchComments = sinon.spy();
     const getState = sinon.stub().returns({
       auth: { token: 'blublu' },
-      tickets: {
+      ticket: {
         ticket: {
           id: 3
         }
@@ -25,7 +25,7 @@ describe('commentSagas', () => {
     it('should call the fetchComments function', () => {
       const saga = loadCommentsSaga(commentActions.list.request());
 
-      expect(saga.next().value).to.deep.equal(call(fetchComments, getState().tickets.ticket, 'blublu')); // eslint-disable-line max-len
+      expect(saga.next().value).to.deep.equal(call(fetchComments, getState().ticket.id, 'blublu')); // eslint-disable-line max-len
     });
 
     it('should put the commentActions.list.success action with comments on successful fetch', () => { // eslint-disable-line max-len
@@ -34,7 +34,7 @@ describe('commentSagas', () => {
       saga.next();
 
       const nextValue = saga.next([]).value;
-      const listCommentsPut = put(commentActions.list.success(), getState().tickets.ticket, 'blublu'); // eslint-disable-line max-len
+      const listCommentsPut = put(commentActions.list.success(), getState().ticket.ticket, 'blublu'); // eslint-disable-line max-len
       expect(nextValue).to.deep.equal(listCommentsPut);
     });
 
@@ -54,7 +54,7 @@ describe('commentSagas', () => {
     const newComment = sinon.spy();
     const getState = sinon.stub().returns({
       auth: { token: 'blublu' },
-      comments: {
+      comment: {
         comment: {
           user_id: 1,
           text: 'Comment text'

@@ -3,6 +3,7 @@ import { ticketActionTypes } from './ticketActions';
 
 describe('ticket reducer', () => {
   const initialState = {
+    id: null,
     error: null,
     tickets: [],
     ticket: null,
@@ -19,6 +20,7 @@ describe('ticket reducer', () => {
     expect(
       ticketReducer(undefined, { type: ticketActionTypes.list.SUCCESS, payload: [{ id: 1 }] })
     ).to.deep.equal({
+      id: null,
       error: null,
       ticket: null,
       tickets: [{ id: 1 }],
@@ -36,6 +38,7 @@ describe('ticket reducer', () => {
       })
     ).to.deep.equal({
       error,
+      id: null,
       ticket: null,
       tickets: [],
       loading: false
@@ -46,6 +49,7 @@ describe('ticket reducer', () => {
     expect(
       ticketReducer(undefined, { type: ticketActionTypes.item.SUCCESS, payload: { id: 1 } })
     ).to.deep.equal({
+      id: null,
       error: null,
       ticket: { id: 1 },
       tickets: [],
@@ -63,6 +67,7 @@ describe('ticket reducer', () => {
       })
     ).to.deep.equal({
       error,
+      id: null,
       ticket: null,
       tickets: [],
       loading: false
@@ -73,6 +78,7 @@ describe('ticket reducer', () => {
     expect(
       ticketReducer(undefined, { type: ticketActionTypes.create.SUCCESS, payload: { id: 1 } })
     ).to.deep.equal({
+      id: null,
       error: null,
       ticket: { id: 1 },
       tickets: [],
@@ -90,6 +96,7 @@ describe('ticket reducer', () => {
       })
     ).to.deep.equal({
       error,
+      id: null,
       ticket: null,
       tickets: [],
       loading: false
@@ -100,6 +107,7 @@ describe('ticket reducer', () => {
     expect(
       ticketReducer(undefined, { type: ticketActionTypes.update.SUCCESS, payload: { id: 1 } })
     ).to.deep.equal({
+      id: null,
       error: null,
       ticket: { id: 1 },
       tickets: [],
@@ -117,6 +125,7 @@ describe('ticket reducer', () => {
       })
     ).to.deep.equal({
       error,
+      id: null,
       ticket: null,
       tickets: [],
       loading: false
@@ -131,6 +140,7 @@ describe('ticket reducer', () => {
         payload: { id: 1 }
       })
     ).to.deep.equal({
+      id: null,
       error: null,
       ticket: null,
       tickets: [{ id: 1 }],
@@ -148,6 +158,7 @@ describe('ticket reducer', () => {
       })
     ).to.deep.equal({
       error,
+      id: null,
       ticket: null,
       tickets: [],
       loading: false

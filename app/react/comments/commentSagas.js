@@ -8,16 +8,12 @@ import {
   fetchNewComment as fetchNewCommentAPI
 } from './commentApi';
 
-//import { loadListFactory } from '../app/factories/sagas';
-//export const loadComments = (fetchComments, jwtAccessor) =>
-//  loadListFactory(commentActionTypes, commentActions, fetchComments, jwtAccessor);
-
 export const loadComments = (fetchComments, getState) => function* fetchCommentsSaga() {
   const state = getState();
   const {
     error,
     comments
-    } = yield call(fetchComments, state.tickets.ticket, state.auth.token);
+    } = yield call(fetchComments, state.ticket.id, state.auth.token);
 
   if (error) {
     yield put(commentActions.list.failure(error));
@@ -31,7 +27,7 @@ export const newComment = (fetchNewComment, getState) => function* newCommentSag
   const {
     error,
     comment
-    } = yield call(fetchNewComment, state.comments.comment, state.auth.token);
+    } = yield call(fetchNewComment, state.comment.comment, state.auth.token);
 
   if (error) {
     yield put(commentActions.comment.failure(error));

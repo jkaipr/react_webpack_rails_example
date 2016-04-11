@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, ButtonToolbar, Col, Label, Row } from 'react-bootstrap';
+import { Button, ButtonToolbar, Col, Row } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { routerActions } from 'react-router-redux';
 
+import commentActions from './../comments/commentActions';
 import ticketActions from './ticketActions';
 
+import CommentList from './../comments/CommentList';
 import Loading from './../app/Loading';
 import TicketStatusBadge from './TicketStatusBadge';
 
@@ -24,7 +26,9 @@ class Ticket extends Component {
   }
 
   componentDidMount() {
-    this.props.loadTicket(this.props.params.id);
+    const id = this.props.params.id;
+    this.props.loadTicket(id);
+    this.props.loadComments();
   }
 
   destroyTicket() {
@@ -38,7 +42,7 @@ class Ticket extends Component {
       return <Loading />;
     }
 
-    const { admin, authenticated, destroyTicket, userId } = this.props;
+    const { admin, authenticated, comments, loadingComments, userId } = this.props;
     const canEdit = admin || (authenticated && userId === ticket.user_id);
 
     return (
@@ -83,6 +87,7 @@ class Ticket extends Component {
               </Link>
             </ButtonToolbar>
           }
+          <CommentList comments={comments} loading={loadingComments} />
         </div>
       </div>
     );
@@ -92,8 +97,11 @@ class Ticket extends Component {
 Ticket.propTypes = {
   admin: PropTypes.bool.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  comments: PropTypes.array.isRequired,
   destroyTicket: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  loadingComments: PropTypes.bool.isRequired,
+  loadComments: PropTypes.func.isRequired,
   loadTicket: PropTypes.func.isRequired,
   routerPush: PropTypes.func.isRequired,
   userId: PropTypes.number.isRequired,
@@ -112,7 +120,9 @@ function mapStateToProps(state) {
   return {
     admin: state.auth.admin,
     authenticated: state.auth.authenticated,
+    comments: state.comment.ticketComments,
     loading: state.ticket.loading,
+    loadingComments: state.comment.loading,
     ticket: state.ticket.ticket,
     userId: state.auth.id
   };
@@ -120,7 +130,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    addComment: commentActions.comment.request,
     destroyTicket: ticketActions.destroy.request,
+    loadComments: commentActions.list.request,
     loadTicket: ticketActions.item.request,
     routerPush: routerActions.push
   }, dispatch);

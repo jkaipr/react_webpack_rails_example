@@ -2,6 +2,7 @@ import { ticketActionTypes } from './ticketActions';
 import { extend } from 'lodash';
 
 const initialState = {
+  id: null,
   tickets: [],
   ticket: null,
   error: null,
@@ -13,10 +14,15 @@ export default (state = initialState, { type, payload }) => {
 
   switch (type) {
     case ticketActionTypes.list.REQUEST:
-    case ticketActionTypes.item.REQUEST:
     case ticketActionTypes.destroy.REQUEST:
       return {
         ...state,
+        loading: true
+      };
+    case ticketActionTypes.item.REQUEST:
+      return {
+        ...state,
+        id: payload,
         loading: true
       };
     case ticketActionTypes.create.REQUEST:
