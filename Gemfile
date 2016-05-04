@@ -8,7 +8,7 @@ gem 'knock', '~> 1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Integrate Webpack and React
-gem 'react_webpack_rails', '~> 0.3.0'
+gem 'react_webpack_rails', '~> 0.4.1'
 # TODO make isomporhic work
 # gem 'rwr-redux', '~> 0.1'
 # gem 'rwr-react_router', '~> 0.3'
