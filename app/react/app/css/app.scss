@@ -13,7 +13,7 @@ body {
   overflow: hidden;
 }
 
-[data-reactid=".0"], [data-reactid=".0.0"] {
+[data-reactroot] > div {
   height: 100%;
 }
 
@@ -31,7 +31,7 @@ body {
   height: 100%;
   padding: 3em 2em;
   background: #b4bad2;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .bottom-margin-15 {
