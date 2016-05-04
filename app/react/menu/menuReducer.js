@@ -1,9 +1,7 @@
 import { menuActionTypes } from './menuActions';
 
 const initialState = {
-  showMenu: false,
-  error: null,
-  loading: false
+  showMenu: false
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -12,18 +10,14 @@ export default (state = initialState, { type, payload }) => {
     case menuActionTypes.hide.REQUEST:
       return {
         ...state,
-        showMenu: false,
-        error: null,
-        loading: false
+        showMenu: false
       };
 
-    //case menuActionTypes.hide.SUCCESS:
-    //  return {
-    //    ...state,
-    //    showMenu: false,
-    //    error: null,
-    //    loading: false
-    //  };
+    case menuActionTypes.show.REQUEST:
+      return {
+        ...state,
+        showMenu: true
+      };
 
     default:
       return state;

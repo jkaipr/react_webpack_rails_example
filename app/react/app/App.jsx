@@ -19,7 +19,7 @@ export class App extends Component {
   render() {
     return (
       <div className="app" id="outer-container">
-        <Menu pageWrapId={"page-wrap"} outerContainerId={"outer-container"} />
+        <Menu outerContainerId={"outer-container"} pageWrapId={"page-wrap"} />
         <div id="page-wrap">
           {this.props.children}
         </div>

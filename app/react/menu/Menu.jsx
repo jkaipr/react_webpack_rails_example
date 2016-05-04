@@ -1,5 +1,5 @@
 import Radium from 'radium';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,37 +10,55 @@ import authActions from './../auth/authActions';
 
 const RLink = Radium(Link);
 
-
-export const AppMenu = (props) => {
-  const { authenticated, hide, logout, isOpen, pageWrapId, outerContainerId } = props;
-  const logoutUser = () => {
-    logout();
-    hide();
-  };
-  let authLink = null;
-
-  if (authenticated) {
-    authLink = (
-      <RLink onClick={logoutUser} to="/tickets">
-        <span>Logout</span>
-      </RLink>);
-  } else {
-    authLink = <RLink onClick={hide} to="/login"><span>Login</span></RLink>;
+export class AppMenu extends Component {
+  constructor() {
+    super();
+    this.logoutUser = this.logoutUser.bind(this);
+    this.handleMenuStateChange = this.handleMenuStateChange.bind(this);
   }
 
-  return (
-    <SideMenu isOpen={isOpen} pageWrapId={pageWrapId} outerContainerId={outerContainerId}>
-      {authLink}
-      <RLink onClick={hide} to="/tickets"><span>Tickets</span></RLink>
-      <RLink onClick={hide} to="/comments"><span>Comments</span></RLink>
-    </SideMenu>
-  );
-};
+  logoutUser() {
+    this.props.logout();
+    this.props.hideMenu();
+  }
+
+  handleMenuStateChange(state) {
+    if (state.isOpen == this.props.isOpen) return;
+    if (state.isOpen) {
+      this.props.showMenu();
+    } else {
+      this.props.hideMenu();
+    }
+  }
+
+  render() {
+    const { authenticated, hideMenu, isOpen, pageWrapId, outerContainerId } = this.props;
+    let authLink = null;
+
+    if (authenticated) {
+      authLink = (
+        <RLink onClick={this.logoutUser} to="/tickets">
+          <span>Logout</span>
+        </RLink>);
+    } else {
+      authLink = <RLink onClick={hideMenu} to="/login"><span>Login</span></RLink>;
+    }
+
+    return (
+      <SideMenu isOpen={isOpen} onStateChange={this.handleMenuStateChange} pageWrapId={pageWrapId} outerContainerId={outerContainerId}>
+        {authLink}
+        <RLink onClick={hideMenu} to="/tickets"><span>Tickets</span></RLink>
+        <RLink onClick={hideMenu} to="/comments"><span>Comments</span></RLink>
+      </SideMenu>
+    );
+  }
+}
 
 AppMenu.propTypes = {
   authenticated: PropTypes.bool,
   isOpen: PropTypes.bool,
-  hide: PropTypes.func.isRequired,
+  hideMenu: PropTypes.func.isRequired,
+  showMenu: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired
 };
 
@@ -53,7 +71,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    hide: menuActions.hide.request,
+    hideMenu: menuActions.hide.request,
+    showMenu: menuActions.show.request,
     logout: authActions.logout.request
   }, dispatch);
 }
