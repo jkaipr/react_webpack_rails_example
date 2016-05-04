@@ -13,3 +13,16 @@ Seed data:
 
     bundle exec rake test && npm run test
     
+## Run application
+
+### Rails 
+
+    bundle exec rails s
+    
+### Webpack for React asset building
+
+    npm run start
+    
+### Webpack dev server for hot reloading of react assets
+
+    npm run start-hot-dev
