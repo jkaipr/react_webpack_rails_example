@@ -26,10 +26,11 @@ class NewTicket extends Component {
       <TicketForm
         backBtnLabel="Back to list"
         onBack={this.backToList}
-        submitBtnLabel="Create"
         onSubmit={create}
+        submitBtnLabel="Create"
         {...rest}
         ticket={{ subject: '', description: '' }}
+        title="New ticket"
       />
     );
   }

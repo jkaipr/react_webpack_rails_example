@@ -29,6 +29,7 @@ class EditTicket extends Component {
         submitBtnLabel="Update"
         onSubmit={update}
         {...rest}
+        title="Edit ticket"
       />
     );
   }

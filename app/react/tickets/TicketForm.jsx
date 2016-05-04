@@ -7,7 +7,7 @@ import TicketFormInputs from './TicketFormInputs';
 
 const TicketForm = ({ fields: { subject, description },
   backBtnLabel, handleSubmit, loading, onBack, onSubmit, submitBtnLabel,
-  submitting, submitFailed, ticket, ticketError }) => {
+  submitting, submitFailed, ticket, ticketError, title }) => {
   if (loading || !ticket) {
     return <Loading />;
   }
@@ -16,7 +16,7 @@ const TicketForm = ({ fields: { subject, description },
     <div className="container ticket">
       <Button onClick={onBack}>{backBtnLabel}</Button>
       <div className="well">
-        <h2>Create ticket</h2>
+        <h2>{title}</h2>
         <form onSubmit={handleSubmit(
           onSubmit.bind(null, {
             subject: subject.value,
@@ -44,6 +44,7 @@ TicketForm.propTypes = {
   submitBtnLabel: PropTypes.string.isRequired,
   ticket: PropTypes.object,
   ticketError: PropTypes.string,
+  title: PropTypes.string.isRequired,
   userId: PropTypes.number.isRequired
 };
 
