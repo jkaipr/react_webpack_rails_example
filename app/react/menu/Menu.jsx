@@ -48,7 +48,6 @@ export class AppMenu extends Component {
       <SideMenu isOpen={isOpen} onStateChange={this.handleMenuStateChange} pageWrapId={pageWrapId} outerContainerId={outerContainerId}>
         {authLink}
         <RLink onClick={hideMenu} to="/tickets"><span>Tickets</span></RLink>
-        <RLink onClick={hideMenu} to="/comments"><span>Comments</span></RLink>
       </SideMenu>
     );
   }
