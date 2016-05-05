@@ -19,6 +19,13 @@ class EditTicket extends Component {
     routerPush(`/tickets/${id}`);
   }
 
+  componentDidMount() {
+    if (!this.props.ticket) {
+      const id = this.props.params.id;
+      this.props.loadTicket(id);
+    }
+  }
+
   render() {
     const { update, ...rest } = this.props;
 
