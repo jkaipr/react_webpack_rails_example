@@ -37,6 +37,7 @@ class EditTicket extends Component {
         onSubmit={update}
         {...rest}
         title="Edit ticket"
+        newTicket={false}
       />
     );
   }

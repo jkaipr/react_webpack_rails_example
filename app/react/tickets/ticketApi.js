@@ -14,7 +14,7 @@ export const createTicket = (ticket, jwt) => fetch(`${API_URL}/tickets`, {
   // @see http://www.redotheweb.com/2015/11/09/api-security.html
   credentials: 'include',
   method: 'POST',
-  body: JSON.stringify({ description: ticket.description, subject: ticket.description })
+  body: JSON.stringify({ description: ticket.description, subject: ticket.subject })
 })
   .then(response => {
     if (!response.ok) {

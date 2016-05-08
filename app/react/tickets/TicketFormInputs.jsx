@@ -2,13 +2,11 @@ import React, { PropTypes } from 'react';
 import { ButtonInput, Input } from 'react-bootstrap';
 import buildSchema from 'redux-form-schema';
 
+import RTE from '../rte/RTE'
+
 export const ticketSchema = buildSchema({
   subject: {
     label: 'Subject',
-    required: true
-  },
-  description: {
-    label: 'Description',
     required: true
   }
 });
@@ -21,9 +19,8 @@ const TicketFormInputs = ({ description, subject, submitLabel, ticketError }) =>
       </div>
     }
     <Input type="text" label="Subject" placeholder="Enter subject" {...subject} value={subject.value || ''} />
-    <Input type="textarea" label="Description"
-      placeholder="Enter description" {...description}
-    />
+    <RTE/>
+
     <ButtonInput bsStyle="primary" type="submit" value={submitLabel} />
   </div>
 );

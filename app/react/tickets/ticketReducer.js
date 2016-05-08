@@ -1,5 +1,5 @@
 import { ticketActionTypes } from './ticketActions';
-import { extend } from 'lodash';
+import extend from 'lodash-compat/object/extend';
 
 const initialState = {
   id: null,

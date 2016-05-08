@@ -5,6 +5,7 @@ import { reducer as form } from 'redux-form';
 import authReducerFactory from '../auth/authReducer';
 import comment from '../comments/commentReducer';
 import menu from '../menu/menuReducer';
+import rte from '../rte/rteReducer';
 import ticket from '../tickets/ticketReducer';
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   form,
   menu,
   routing: routerReducer,
+  rte,
   ticket
 });
 

@@ -63,7 +63,7 @@ class Ticket extends Component {
               <b>Description</b>
             </Col>
             <Col sm={10}>
-              <span>{ticket.description}</span>
+              <span dangerouslySetInnerHTML={{__html: ticket.description}}></span>
             </Col>
           </Row>
           <Row>

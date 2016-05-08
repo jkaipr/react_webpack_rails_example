@@ -30,6 +30,7 @@ class NewTicket extends Component {
         submitBtnLabel="Create"
         {...rest}
         ticket={{ subject: '', description: '' }}
+        newTicket={true}
         title="New ticket"
       />
     );
